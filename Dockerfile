@@ -1,13 +1,11 @@
-FROM maven:3.6.3-openjdk-17
+# Этап 1 - сборка проекта в jar
+FROM maven:3.8-openjdk-17 as maven
+WORKDIR /app
+COPY . /app
+RUN mvn install
 
-RUN mkdir job4j_dish
-
-WORKDIR job4j_dish
-
-COPY . .
-
-RUN mvn package -Dmaven.test.skip=true
-
-CMD ["mvn", "liquibase:update", "-Pdocker"]
-
-CMD ["java", "-jar", "target/job4j_dish-1.0.jar"]
+# Этап 2 - указание как запустить проект
+FROM openjdk:17.0.2-jdk
+WORKDIR /app
+COPY --from=maven /app/target/job4j_dish-1.0.jar app.jar
+CMD java -jar app.jar
