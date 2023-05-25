@@ -31,4 +31,4 @@
 5. Как запустить приложение через Docker Compose: docker-compose run job4j_dish
 
 # Контакты
-mymail@gmail.com.
+andrew76k@rambler.ru
